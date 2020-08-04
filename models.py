@@ -21,7 +21,7 @@ class Cupcake(db.Model):
     flavor = db.Column(db.String(30), nullable=False)
     size = db.Column(db.String(30), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
-    image = db.Column(db.String(250), nullable=False, default=DEFAULT_URL)
+    image = db.Column(db.String(250), default=DEFAULT_URL)
 
     def __repr__(self):
         """Show info about Cupcake."""

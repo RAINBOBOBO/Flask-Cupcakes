@@ -1,12 +1,12 @@
 from unittest import TestCase
 
 from app import app
-from models import db, Cupcake
+from models import db, Cupcake, DEFAULT_URL
 
 # Use test database and don't clutter tests with SQL
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///cupcakes_test'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///cupcakes_test'
 # Comment the line below and uncomment the line above if not on windows.
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://rainb:qwerty@localhost/cupcakes_test'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://rainb:qwerty@localhost/cupcakes_test'
 app.config['SQLALCHEMY_ECHO'] = False
 
 # Make Flask errors be real errors, rather than HTML pages with error info
@@ -109,3 +109,46 @@ class CupcakeViewsTestCase(TestCase):
             })
 
             self.assertEqual(Cupcake.query.count(), 2)
+
+    def test_update_cupcake(self):
+        with app.test_client() as client:
+            flavor = "NewFlavor"
+            size = "NewSize" 
+            image = ""
+
+            CUPCAKE_DATA_2 = {
+                "flavor": flavor,
+                "size": size,
+                "image": image}
+
+            url = f"api/cupcakes/{self.cupcake.id}"
+            resp = client.patch(url, json=CUPCAKE_DATA_2)
+
+            self.assertEqual(resp.status_code, 200)
+
+            data = resp.json
+            self.assertEqual(data, {
+                "cupcake": {
+                    "id": self.cupcake.id,
+                    "flavor": flavor,
+                    "size": size,
+                    "rating": self.cupcake.rating,
+                    "image": DEFAULT_URL
+                }
+            })
+
+
+
+    def test_delete_cupcake(self):
+        with app.test_client() as client:
+            url = f"api/cupcakes/{self.cupcake.id}"
+
+            curr_cupcake = self.cupcake
+            resp = client.delete(url)
+            cupcakes = Cupcake.query.all() #
+
+            self.assertEqual(resp.status_code, 200)
+
+            data = resp.json
+            self.assertEqual(data, {"message": "Deleted"})
+            self.assertNotIn(curr_cupcake, cupcakes)

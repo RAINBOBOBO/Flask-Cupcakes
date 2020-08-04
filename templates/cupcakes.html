@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet"
+  href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
+  
+  <title>Cupcakes</title>
+</head>
+<body>
+  <div>
+    <div>List Of Cupcakes</div>
+    <ul id="cupcake-list"></ul>
+  </div>
+
+  <div>
+    <form action="done via ajax" id="add-cupcake">
+      <input type="text" id="cupcake-flavor">
+      <label for="cupcake-flavor">Flavor</label>
+      <input type="text" id="cupcake-image">
+      <label for="cupcake-image">Image</label>
+      <input type="text" id="cupcake-rating">
+      <label for="cupcake-rating">Rating</label>
+      <input type="text" id="cupcake-size">
+      <label for="cupcake-size">Size</label>
+      <button class="btn btn-primary">Add New Cupcakes</button>
+    </form>
+  </div>
+
+  <script src="http://unpkg.com/jquery"></script>
+  <script src="http://unpkg.com/axios/dist/axios.js"></script>
+  <script src="/static/cupcake.js"></script>
+  
+</body>
+</html>
